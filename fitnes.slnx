@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="fitnes.bot/fitnes.bot.csproj" />
+  <Project Path="src/fitnes.Application/fitnes.Application.csproj" />
+  <Project Path="src/fitnes.Domain/fitnes.Domain.csproj" />
+  <Project Path="src/fitnes.Infrastructure/fitnes.Infrastructure.csproj" />
+</Solution>
