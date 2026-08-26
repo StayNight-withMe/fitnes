@@ -1,0 +1,135 @@
+{
+  "Idle": {
+    "Text": "Der Bot ist bereit für die Arbeit.",
+    "BtnStart": "Arbeit beginnen",
+    "BtnLanguage": "Sprache auswählen",
+    "ProfileSaved": "Profil gespeichert!",
+    "Saved": "Profil gespeichert!"
+  },
+  "LanguageSelection": {
+    "Text": "Bitte wählen Sie eine Sprache:",
+    "Current": " (Aktuell)",
+    "BtnRu": "🇷🇺 Russisch",
+    "BtnEn": "🇺🇸 Englisch",
+    "BtnEs": "🇪🇸 Spanisch",
+    "BtnDe": "🇩🇪 Deutsch",
+    "BtnFr": "🇫🇷 Französisch"
+  },
+  "WorkMenu": {
+    "Text": "Wählen Sie eine Aktion:",
+    "BtnCalories": "📸 Kalorien nach Foto",
+    "BtnProfile": "👤 Profil",
+    "BtnGoals": "🎯 Ziele",
+    "BtnBack": "🔙 Zurück",
+    "BtnCancel": "Abbrechen",
+    "BtnNutrition": "📊 Ernährung",
+    "Card": "👤 Profil:\nGewicht: {0}\nGröße: {1}\nAlter: {2}\nGeschlecht: {3}\nTaille: {4}\nHals: {5}\nHüfte: {6}",
+    "BtnEdit": "✏️ Bearbeiten",
+    "NotSet": "—"
+  },
+  "AwaitingWeight": {
+    "AskWeight": "Bitte geben Sie Ihr Gewicht ein (kg):",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingHeight": {
+    "AskHeight": "Bitte geben Sie Ihre Körpergröße ein (cm):",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingAge": {
+    "AskAge": "Bitte geben Sie Ihr Alter ein:",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingGender": {
+    "AskGender": "Geschlecht eingeben: Male oder Female (M/F, 1/2 möglich):",
+    "InvalidGender": "Ungültiges Format. Geben Sie Male oder Female ein (M/F, 1/2):"
+  },
+  "Calories": {
+    "Text": "📸 Schicken Sie ein Foto des Gerichts mit einer Bildunterschrift (alles, was Sie über das Produkt wissen, am besten Gewicht, Zutaten und nach Möglichkeit deren Gewicht):"
+  },
+  "Stats": {
+    "Card": "📊 {0}\n🔥 Kalorien: {1} kcal\n🍗 Protein: {2} g\n🥑 Fett: {3} g\n🍞 Kohlenhydrate: {4} g\nMahlzeiten: {5}",
+    "Empty": "📊 {0}\nKeine Mahlzeiten in diesem Zeitraum.",
+    "BtnDay": "Tag",
+    "BtnWeek": "Woche",
+    "BtnMonth": "Monat",
+    "BtnToday": "Heute",
+    "BtnPrev": "◀",
+    "BtnNext": "▶",
+    "Current": " (•)"
+  },
+  "Goals": {
+    "MenuText": "🎯 Ziele:\nWähle eine Aktion:",
+    "BtnNew": "➕ Neues Ziel",
+    "BtnView": "📋 Mein Ziel",
+    "TypeText": "Was möchtest du?",
+    "BtnLose": "📉 Abnehmen",
+    "BtnGain": "📈 Zunehmen",
+    "BtnMaintain": "⚖️ Halten",
+    "AskWeight": "Welches Gewicht möchtest du erreichen (kg)?",
+    "AskActivity": "Wähle dein Aktivitätsniveau:",
+    "ActivitySedentary": "Sitzend",
+    "ActivitySedentaryDesc": "sitzender Lebensstil, fast keine Bewegung am Tag",
+    "ActivityLight": "Leicht",
+    "ActivityLightDesc": "etwas Bewegung: Spaziergänge, Haushalt",
+    "ActivityModerate": "Mittel",
+    "ActivityModerateDesc": "mäßige Aktivität über den Tag",
+    "ActivityActive": "Hoch",
+    "ActivityActiveDesc": "viel Bewegung über den Tag",
+    "ActivityVeryActive": "Extrem",
+    "ActivityVeryActiveDesc": "sehr aktiver Tag: schwere körperliche Arbeit oder Sport",
+    "Card": "🎯 {0}\n⚖️ {1} → {2} kg\n🔥 Ziel: {3} kcal/Tag\n🍗 Protein: {4} g/Tag",
+    "Empty": "Du hast noch kein Ziel. Legen wir eins fest?",
+    "NeedWeight": "Fülle zuerst dein Profil aus (Gewicht, Größe, Alter) — ohne das keine Berechnung."
+  },
+  "AwaitingGoalWeight": {
+    "AskWeight": "Welches Gewicht möchtest du erreichen (kg)?",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingWaist": {
+    "AskWaist": "Taillenumfang eingeben (cm):",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingNeck": {
+    "AskNeck": "Halsumfang eingeben (cm):",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingHips": {
+    "AskHips": "Hüftumfang eingeben (cm):",
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+  },
+  "AwaitingTimezone": {
+    "AskTimezone": "Deine Zeitzone? Gib die UTC-Abweichung ein, z. B. +3 oder +3:30:",
+    "InvalidTimezone": "Ungültiges Format. Gib die Abweichung wie +3 oder +3:30 ein:"
+  },
+  "AnalysisResult": {
+    "Dish": "🍽 Gericht: {0}",
+    "Accuracy": "🎯 Genauigkeit: {0}",
+    "Serving": "⚖️ Portion: {0}",
+    "Calories": "🔥 Kalorien: {0} kcal ({1}-{2})",
+    "Protein": "🍗 Protein: {0} g",
+    "Fat": "🥑 Fett: {0} g",
+    "Carbs": "🍞 Kohlenhydrate: {0} g",
+    "UnknownDish": "Unbekannt",
+    "NoAnalysis": "Keine Analyse.",
+    "DefaultUnit": "g",
+    "DefaultServingDescription": "keine",
+    "BtnSave": "💾 Mahlzeit speichern",
+    "Saved": "✅ Mahlzeit gespeichert!",
+    "AlreadySaved": "Diese Mahlzeit ist bereits gespeichert."
+  },
+  "Profile": {
+    "AskWeight": "Bitte geben Sie Ihr Gewicht ein (kg):",
+    "AskHeight": "Bitte geben Sie Ihre Körpergröße ein (cm):",
+    "AskAge": "Bitte geben Sie Ihr Alter ein:",
+    "AskGender": "Geschlecht eingeben: Male oder Female (M/F, 1/2 möglich):",
+    "InvalidGender": "Ungültiges Format. Geben Sie Male oder Female ein (M/F, 1/2):",
+    "ProfileSaved": "Profil gespeichert!",
+    "Saved": "Profil gespeichert!",
+    "Card": "👤 Profil:\nGewicht: {0}\nGröße: {1}\nAlter: {2}\nGeschlecht: {3}\nTaille: {4}\nHals: {5}\nHüfte: {6}",
+    "BtnEdit": "✏️ Bearbeiten",
+    "NotSet": "—"
+  },
+  "Errors": {
+    "SessionExpired": "Sitzung abgelaufen. Bitte verwenden Sie den Befehl /start."
+  }
+}
