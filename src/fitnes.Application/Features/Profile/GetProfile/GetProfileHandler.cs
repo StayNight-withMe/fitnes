@@ -43,6 +43,7 @@ public class GetProfileHandler : IRequestHandler<GetProfileRequest, Result<WorkF
         var text = string.Format(cardTemplate, weight, height, age, gender, waist, neck, hips);
 
         var btnEdit = _localizer.GetPhrase(WorkflowStep.WorkMenu, LocalizationKeysConstants.Profile.BtnEdit);
+        var btnWeightEdit = _localizer.GetPhrase(WorkflowStep.WorkMenu, LocalizationKeysConstants.Profile.BtnWeightEdit);
         var btnBack = _localizer.GetPhrase(WorkflowStep.WorkMenu, LocalizationKeysConstants.WorkMenu.BtnBack);
 
         var response = new WorkFlowResponse
@@ -51,6 +52,7 @@ public class GetProfileHandler : IRequestHandler<GetProfileRequest, Result<WorkF
             ButtonRows = new[]
             {
                 new ButtonRow(new ButtonData(btnEdit, CallbackPrefixConstants.ProfileEdit)),
+                new ButtonRow(new ButtonData(btnWeightEdit, CallbackPrefixConstants.ProfileWeightEdit)),
                 new ButtonRow(new ButtonData(btnBack, CallbackPrefixConstants.Back))
             }
         };

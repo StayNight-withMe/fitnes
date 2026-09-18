@@ -15,6 +15,7 @@ public static class LocalizationKeysConstants
     {
         public const string Text = "Text";
         public const string Current = "Current";
+        public const string InvalidLanguage = "InvalidLanguage";
         public static readonly (string LangName, Language LangValue)[] AvailableLanguages = { ("BtnRu", Language.Ru), ("BtnEn", Language.En), ("BtnEs", Language.Es), ("BtnDe", Language.De), ("BtnFr", Language.Fr) };
     }
 
@@ -45,6 +46,7 @@ public static class LocalizationKeysConstants
         public const string BtnSave = "BtnSave";
         public const string Saved = "Saved";
         public const string AlreadySaved = "AlreadySaved";
+        public const string NotFound = "NotFound";
     }
 
     public static class Calories
@@ -63,12 +65,14 @@ public static class LocalizationKeysConstants
         public const string AskNeck = "AskNeck";
         public const string AskHips = "AskHips";
         public const string InvalidNumber = "InvalidNumber";
+        public const string InvalidNeck = "InvalidNeck";
         public const string AskTimezone = "AskTimezone";
         public const string InvalidTimezone = "InvalidTimezone";
         public const string Saved = "Saved";
         public const string ProfileSaved = "ProfileSaved";
         public const string Card = "Card";
         public const string BtnEdit = "BtnEdit";
+        public const string BtnWeightEdit = "BtnWeightEdit";
         public const string NotSet = "NotSet";
     }
 
@@ -88,6 +92,7 @@ public static class LocalizationKeysConstants
         public const string BtnPrev = "BtnPrev";
         public const string BtnNext = "BtnNext";
         public const string Current = "Current";
+        public const string InvalidPeriod = "InvalidPeriod";
     }
 
     public static class Goals
@@ -114,5 +119,7 @@ public static class LocalizationKeysConstants
         public const string Card = "Card";
         public const string Empty = "Empty";
         public const string NeedWeight = "NeedWeight";
+        public const string InvalidRequest = "InvalidRequest";
+        public const string Mismatch = "Mismatch";
     }
 }
