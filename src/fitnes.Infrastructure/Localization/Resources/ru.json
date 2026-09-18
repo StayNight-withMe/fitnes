@@ -1,0 +1,143 @@
+{
+  "Idle": {
+    "Text": "Привет! Бот готов к работе.",
+    "BtnStart": "Начать работу",
+    "BtnLanguage": "Выбрать язык",
+    "ProfileSaved": "Профиль сохранен!",
+    "Saved": "Профиль сохранен!"
+  },
+  "LanguageSelection": {
+    "Text": "Пожалуйста, выберите язык:",
+    "Current": " (Текущий)",
+    "InvalidLanguage": "Неверный язык.",
+    "BtnRu": "🇷🇺 Русский",
+    "BtnEn": "🇺🇸 English",
+    "BtnEs": "🇪🇸 Español",
+    "BtnDe": "🇩🇪 Deutsch",
+    "BtnFr": "🇫🇷 Français"
+  },
+  "WorkMenu": {
+    "Text": "Выберите действие:",
+    "BtnCalories": "📸 Калории по фото",
+    "BtnProfile": "👤 Профиль",
+    "BtnGoals": "🎯 Цели",
+    "BtnBack": "🔙 Назад",
+    "BtnCancel": "Отмена",
+    "BtnNutrition": "📊 Питание",
+    "Card": "👤 Профиль:\nВес: {0}\nРост: {1}\nВозраст: {2}\nПол: {3}\nТалия: {4}\nШея: {5}\nБедра: {6}",
+    "BtnEdit": "✏️ Изменить всё",
+    "BtnWeightEdit": "⚖️ Изменить вес",
+    "NotSet": "—"
+  },
+  "AwaitingWeight": {
+    "AskWeight": "Введите вес (кг):",
+    "InvalidNumber": "Неверный формат. Введи число:"
+  },
+  "AwaitingHeight": {
+    "AskHeight": "Введите рост (см):",
+    "InvalidNumber": "Неверный формат. Введи число:"
+  },
+  "AwaitingAge": {
+    "AskAge": "Введите возраст:",
+    "InvalidNumber": "Неверный формат. Введи число:"
+  },
+  "AwaitingGender": {
+    "AskGender": "Введите пол: Male или Female (можно M/F, М/Ж, 1/2):",
+    "InvalidGender": "Неверный формат. Введите Male или Female (можно M/F, М/Ж, 1/2):"
+  },
+  "Calories": {
+    "Text": "📸 Скиньте фото блюда и подпись к нему (всё, что знаете о продукте, желательно вес, ингредиенты и по возможности их вес):"
+  },
+  "Stats": {
+    "Card": "📊 {0}\n🔥 Калории: {1} ккал\n🍗 Белки: {2} г\n🥑 Жиры: {3} г\n🍞 Углеводы: {4} г\nПриемов: {5}",
+    "Empty": "📊 {0}\nЗа этот период приемов нет.",
+    "BtnDay": "День",
+    "BtnWeek": "Неделя",
+    "BtnMonth": "Месяц",
+    "BtnToday": "Сегодня",
+    "BtnPrev": "◀",
+    "BtnNext": "▶",
+    "Current": " (•)",
+    "InvalidPeriod": "Некорректный период."
+  },
+  "Goals": {
+    "MenuText": "🎯 Цели:\nВыбери действие:",
+    "BtnNew": "➕ Новая цель",
+    "BtnView": "📋 Моя цель",
+    "TypeText": "Что хочешь?",
+    "BtnLose": "📉 Похудеть",
+    "BtnGain": "📈 Набрать",
+    "BtnMaintain": "⚖️ Держать",
+    "AskWeight": "До какого веса хочешь дойти (кг)?",
+    "AskActivity": "Выбери уровень активности:",
+    "ActivitySedentary": "Сидячий",
+    "ActivitySedentaryDesc": "сидячий образ жизни, почти без движения в течение дня",
+    "ActivityLight": "Легкая",
+    "ActivityLightDesc": "немного движения: прогулки, домашние дела",
+    "ActivityModerate": "Средняя",
+    "ActivityModerateDesc": "умеренная активность в течение дня",
+    "ActivityActive": "Высокая",
+    "ActivityActiveDesc": "много движения в течение дня",
+    "ActivityVeryActive": "Экстрим",
+    "ActivityVeryActiveDesc": "очень подвижный день: тяжелый физтруд или спорт",
+    "Card": "🎯 {0}\n⚖️ {1} → {2} кг\n🔥 Норма: {3} ккал/день\n🍗 Белок: {4} г/день",
+    "Empty": "У тебя пока нет цели. Поставим?",
+    "NeedWeight": "Сначала заполни профиль (вес, рост, возраст) — без этого норму не посчитать.",
+    "InvalidRequest": "Некорректный запрос.",
+    "Mismatch": "🎯 {0}: цель {1} кг при текущем весе {2} кг — это {3}. Попробуй так:"
+  },
+  "AwaitingGoalWeight": {
+    "AskWeight": "До какого веса хочешь дойти (кг)?",
+    "InvalidNumber": "Неверный формат. Введи число:"
+  },
+  "AwaitingWaist": {
+    "AskWaist": "Введи обхват талии (см):",
+    "InvalidNumber": "Неверный формат. Введи число:"
+  },
+  "AwaitingNeck": {
+    "AskNeck": "Введи обхват шеи (см):",
+    "InvalidNumber": "Неверный формат. Введи число:",
+    "InvalidNeck": "Шея должна быть меньше талии:"
+  },
+  "AwaitingHips": {
+    "AskHips": "Введи обхват бедер (см):",
+    "InvalidNumber": "Неверный формат. Введи число:"
+  },
+  "AwaitingTimezone": {
+    "AskTimezone": "Твой часовой пояс? Введи сдвиг от UTC, например +3 или +3:30:",
+    "InvalidTimezone": "Неверный формат. Введи сдвиг как +3 или +3:30:"
+  },
+  "AnalysisResult": {
+    "Dish": "🍽 Блюдо: {0}",
+    "Accuracy": "🎯 Точность: {0}",
+    "Serving": "⚖️ Порция: {0}",
+    "Calories": "🔥 Калории: {0} ккал ({1}-{2})",
+    "Protein": "🍗 Белки: {0} г",
+    "Fat": "🥑 Жиры: {0} г",
+    "Carbs": "🍞 Углеводы: {0} г",
+    "UnknownDish": "Неизвестно",
+    "NoAnalysis": "Нет анализа.",
+    "DefaultUnit": "г",
+    "DefaultServingDescription": "нет",
+    "BtnSave": "💾 Записать прием пищи",
+    "Saved": "✅ Прием пищи записан!",
+    "AlreadySaved": "Этот прием уже записан.",
+    "NotFound": "Анализ не найден."
+  },
+  "Profile": {
+    "AskWeight": "Введите вес (кг):",
+    "AskHeight": "Введите рост (см):",
+    "AskAge": "Введите возраст:",
+    "AskGender": "Введите пол: Male или Female (можно M/F, М/Ж, 1/2):",
+    "InvalidGender": "Неверный формат. Введите Male или Female (можно M/F, М/Ж, 1/2):",
+    "ProfileSaved": "Профиль сохранен!",
+    "Saved": "Профиль сохранен!",
+    "Card": "👤 Профиль:\nВес: {0}\nРост: {1}\nВозраст: {2}\nПол: {3}\nТалия: {4}\nШея: {5}\nБедра: {6}",
+    "BtnEdit": "✏️ Изменить всё",
+    "BtnWeightEdit": "⚖️ Изменить вес",
+    "NotSet": "—"
+  },
+  "Errors": {
+    "SessionExpired": "Сессия истекла. Пожалуйста, используйте команду /start."
+  }
+}

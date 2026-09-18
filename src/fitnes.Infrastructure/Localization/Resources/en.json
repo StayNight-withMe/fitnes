@@ -1,0 +1,143 @@
+{
+  "Idle": {
+    "Text": "The bot is in idle state.",
+    "BtnStart": "Start Work",
+    "BtnLanguage": "Select Language",
+    "ProfileSaved": "Profile saved!",
+    "Saved": "Profile saved!"
+  },
+  "LanguageSelection": {
+    "Text": "Please choose a language:",
+    "Current": " (Current)",
+    "InvalidLanguage": "Invalid language.",
+    "BtnRu": "🇷🇺 Russian",
+    "BtnEn": "🇺🇸 English",
+    "BtnEs": "🇪🇸 Spanish",
+    "BtnDe": "🇩🇪 German",
+    "BtnFr": "🇫🇷 French"
+  },
+  "WorkMenu": {
+    "Text": "Choose an action:",
+    "BtnCalories": "📸 Calories by photo",
+    "BtnProfile": "👤 Profile",
+    "BtnGoals": "🎯 Goals",
+    "BtnBack": "🔙 Back",
+    "BtnCancel": "Cancel",
+    "BtnNutrition": "📊 Nutrition",
+    "Card": "👤 Profile:\nWeight: {0}\nHeight: {1}\nAge: {2}\nGender: {3}\nWaist: {4}\nNeck: {5}\nHips: {6}",
+    "BtnEdit": "✏️ Edit all",
+    "BtnWeightEdit": "⚖️ Edit weight",
+    "NotSet": "—"
+  },
+  "AwaitingWeight": {
+    "AskWeight": "Please enter your weight (kg):",
+    "InvalidNumber": "Invalid format. Enter a number:"
+  },
+  "AwaitingHeight": {
+    "AskHeight": "Please enter your height (cm):",
+    "InvalidNumber": "Invalid format. Enter a number:"
+  },
+  "AwaitingAge": {
+    "AskAge": "Please enter your age:",
+    "InvalidNumber": "Invalid format. Enter a number:"
+  },
+  "AwaitingGender": {
+    "AskGender": "Enter gender: Male or Female (you can use M/F, 1/2):",
+    "InvalidGender": "Invalid format. Enter Male or Female (M/F, 1/2):"
+  },
+  "Calories": {
+    "Text": "📸 Send a photo of the dish with a caption (everything you know about the product, preferably weight, ingredients and their weight if possible):"
+  },
+  "Stats": {
+    "Card": "📊 {0}\n🔥 Calories: {1} kcal\n🍗 Protein: {2} g\n🥑 Fat: {3} g\n🍞 Carbs: {4} g\nMeals: {5}",
+    "Empty": "📊 {0}\nNo meals in this period.",
+    "BtnDay": "Day",
+    "BtnWeek": "Week",
+    "BtnMonth": "Month",
+    "BtnToday": "Today",
+    "BtnPrev": "◀",
+    "BtnNext": "▶",
+    "Current": " (•)",
+    "InvalidPeriod": "Invalid period."
+  },
+  "Goals": {
+    "MenuText": "🎯 Goals:\nChoose an action:",
+    "BtnNew": "➕ New goal",
+    "BtnView": "📋 My goal",
+    "TypeText": "What do you want?",
+    "BtnLose": "📉 Lose weight",
+    "BtnGain": "📈 Gain weight",
+    "BtnMaintain": "⚖️ Maintain",
+    "AskWeight": "What weight do you want to reach (kg)?",
+    "AskActivity": "Choose your activity level:",
+    "ActivitySedentary": "Sedentary",
+    "ActivitySedentaryDesc": "seated lifestyle, almost no movement during the day",
+    "ActivityLight": "Light",
+    "ActivityLightDesc": "a little movement: walks, housework",
+    "ActivityModerate": "Moderate",
+    "ActivityModerateDesc": "moderate activity throughout the day",
+    "ActivityActive": "High",
+    "ActivityActiveDesc": "lots of movement throughout the day",
+    "ActivityVeryActive": "Extreme",
+    "ActivityVeryActiveDesc": "very active day: heavy physical labor or sports",
+    "Card": "🎯 {0}\n⚖️ {1} → {2} kg\n🔥 Target: {3} kcal/day\n🍗 Protein: {4} g/day",
+    "Empty": "You have no goal yet. Set one?",
+    "NeedWeight": "Fill in your profile (weight, height, age) first — can't calculate without it.",
+    "InvalidRequest": "Invalid request.",
+    "Mismatch": "🎯 {0}: target {1} kg at current {2} kg — that's {3}. Try this:"
+  },
+  "AwaitingGoalWeight": {
+    "AskWeight": "What weight do you want to reach (kg)?",
+    "InvalidNumber": "Invalid format. Enter a number:"
+  },
+  "AwaitingWaist": {
+    "AskWaist": "Enter your waist circumference (cm):",
+    "InvalidNumber": "Invalid format. Enter a number:"
+  },
+  "AwaitingNeck": {
+    "AskNeck": "Enter your neck circumference (cm):",
+    "InvalidNumber": "Invalid format. Enter a number:",
+    "InvalidNeck": "Neck must be smaller than waist:"
+  },
+  "AwaitingHips": {
+    "AskHips": "Enter your hip circumference (cm):",
+    "InvalidNumber": "Invalid format. Enter a number:"
+  },
+  "AwaitingTimezone": {
+    "AskTimezone": "Your time zone? Enter the UTC offset, e.g. +3 or +3:30:",
+    "InvalidTimezone": "Invalid format. Enter the offset like +3 or +3:30:"
+  },
+  "AnalysisResult": {
+    "Dish": "🍽 Dish: {0}",
+    "Accuracy": "🎯 Accuracy: {0}",
+    "Serving": "⚖️ Serving: {0}",
+    "Calories": "🔥 Calories: {0} kcal ({1}-{2})",
+    "Protein": "🍗 Protein: {0} g",
+    "Fat": "🥑 Fat: {0} g",
+    "Carbs": "🍞 Carbs: {0} g",
+    "UnknownDish": "Unknown",
+    "NoAnalysis": "No analysis.",
+    "DefaultUnit": "g",
+    "DefaultServingDescription": "none",
+    "BtnSave": "💾 Save meal",
+    "Saved": "✅ Meal saved!",
+    "AlreadySaved": "This meal is already saved.",
+    "NotFound": "Analysis not found."
+  },
+  "Profile": {
+    "AskWeight": "Please enter your weight (kg):",
+    "AskHeight": "Please enter your height (cm):",
+    "AskAge": "Please enter your age:",
+    "AskGender": "Enter gender: Male or Female (you can use M/F, 1/2):",
+    "InvalidGender": "Invalid format. Enter Male or Female (M/F, 1/2):",
+    "ProfileSaved": "Profile saved!",
+    "Saved": "Profile saved!",
+    "Card": "👤 Profile:\nWeight: {0}\nHeight: {1}\nAge: {2}\nGender: {3}\nWaist: {4}\nNeck: {5}\nHips: {6}",
+    "BtnEdit": "✏️ Edit all",
+    "BtnWeightEdit": "⚖️ Edit weight",
+    "NotSet": "—"
+  },
+  "Errors": {
+    "SessionExpired": "Session expired. Please use the /start command."
+  }
+}
