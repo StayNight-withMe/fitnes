@@ -8,13 +8,12 @@ using fitnes.bot.Handlers.MoveBack;
 using fitnes.bot.Handlers.Profile;
 using fitnes.bot.Handlers.Start;
 using fitnes.bot.Handlers.StartWork;
+using fitnes.Domain.Abstraction.Common;
 using fitnes.Domain.Abstraction.Repositories;
 using fitnes.Domain.Entities;
-using fitnes.Domain.Options;
 using fitnes.Infrastructure.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Telegram.Bot;
 
 namespace fitnes.bot.Extension.DI;
@@ -27,9 +26,9 @@ public static class HandlerExtensions
         services.AddScoped<IBotUpdateHandler>(sp => new BotUpdateHandlerDecorator(
             sp.GetRequiredService<BotUpdateHandler>(),
             sp.GetRequiredService<ISessionRepository>(),
+            sp.GetRequiredService<ISessionService>(),
             sp.GetRequiredService<IBaseRepository<User, long>>(),
             sp.GetRequiredService<RequestContext>(),
-            sp.GetRequiredService<IOptions<SessionOptions>>(),
             sp.GetRequiredService<ITelegramBotClient>(),
             sp.GetRequiredService<ILogger<BotUpdateHandlerDecorator>>()
         ));
@@ -49,6 +48,8 @@ public static class HandlerExtensions
         services.AddScoped<IBotHandler, CancelHandler>();
         services.AddScoped<IBotHandler, ProfileViewHandler>();
         services.AddScoped<IBotHandler, ProfileEditHandler>();
+        services.AddScoped<IBotHandler, ProfileWeightHandler>();
+        services.AddScoped<IBotHandler, WeightInputHandler>();
         services.AddScoped<IBotHandler, ProfileHandler>();
 
         return services;
