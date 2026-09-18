@@ -22,11 +22,6 @@ public class RedisSessionRepository : ISessionRepository
         var data = JsonSerializer.Serialize(session);
 
         await _database.StringSetAsync(key, data, expiry);
-
-        await _database.SortedSetAddAsync(
-            AllSessionsIndexKey, 
-            session.Id, 
-            DateTimeOffset.UtcNow.ToUnixTimeSeconds());
     }
 
     public async Task<UserSession?> GetSession(long chatId, CancellationToken cancellationToken)
@@ -47,6 +42,15 @@ public class RedisSessionRepository : ISessionRepository
         var key = GetKey(chatId);
 
         await _database.KeyDeleteAsync(key);
+    }
+
+    public async Task AddToIndex(long chatId, DateTimeOffset activeAt, CancellationToken cancellationToken)
+    {
+        await _database.SortedSetAddAsync(AllSessionsIndexKey, chatId, activeAt.ToUnixTimeSeconds());
+    }
+
+    public async Task RemoveFromIndex(long chatId, CancellationToken cancellationToken)
+    {
         await _database.SortedSetRemoveAsync(AllSessionsIndexKey, chatId);
     }
 
