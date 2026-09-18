@@ -18,4 +18,5 @@ public enum WorkflowStep
     AwaitingNeck = 16,
     AwaitingHips = 17,
     AwaitingTimezone = 18,
+    AwaitingWeightEdit = 19,
 }

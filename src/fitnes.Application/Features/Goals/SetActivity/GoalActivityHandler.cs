@@ -32,9 +32,14 @@ public class GoalActivityHandler : IRequestHandler<GoalActivityMessage, Result<W
             return Result.Failure<WorkFlowResponse>(Errors.UserNotFound);
         }
 
-        if (user.Weight <= 0 || user.Height <= 0 || user.Age <= 0 || request.TargetWeight <= ProfileValidationConstants.WeightMin || request.TargetWeight > ProfileValidationConstants.WeightMax)
+        if (user.Weight <= 0 || user.Height <= 0 || user.Age <= 0)
         {
             return Result.Failure<WorkFlowResponse>(Errors.ValidationError);
+        }
+
+        if (GoalCoherence.IsMismatch(request.Type, user.Weight, request.TargetWeight))
+        {
+            return Result<WorkFlowResponse>.Success(GoalCoherence.BuildMismatchResponse(request.Type, user.Weight, request.TargetWeight, _localizer));
         }
 
         await _goalRepository.DeactivateActiveAsync(request.ChatId, cancellationToken);

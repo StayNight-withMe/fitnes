@@ -9,6 +9,7 @@
   "LanguageSelection": {
     "Text": "Bitte wählen Sie eine Sprache:",
     "Current": " (Aktuell)",
+    "InvalidLanguage": "Ungültige Sprache.",
     "BtnRu": "🇷🇺 Russisch",
     "BtnEn": "🇺🇸 Englisch",
     "BtnEs": "🇪🇸 Spanisch",
@@ -24,7 +25,8 @@
     "BtnCancel": "Abbrechen",
     "BtnNutrition": "📊 Ernährung",
     "Card": "👤 Profil:\nGewicht: {0}\nGröße: {1}\nAlter: {2}\nGeschlecht: {3}\nTaille: {4}\nHals: {5}\nHüfte: {6}",
-    "BtnEdit": "✏️ Bearbeiten",
+    "BtnEdit": "✏️ Alles bearbeiten",
+    "BtnWeightEdit": "⚖️ Gewicht ändern",
     "NotSet": "—"
   },
   "AwaitingWeight": {
@@ -55,7 +57,8 @@
     "BtnToday": "Heute",
     "BtnPrev": "◀",
     "BtnNext": "▶",
-    "Current": " (•)"
+    "Current": " (•)",
+    "InvalidPeriod": "Ungültiger Zeitraum."
   },
   "Goals": {
     "MenuText": "🎯 Ziele:\nWähle eine Aktion:",
@@ -79,7 +82,9 @@
     "ActivityVeryActiveDesc": "sehr aktiver Tag: schwere körperliche Arbeit oder Sport",
     "Card": "🎯 {0}\n⚖️ {1} → {2} kg\n🔥 Ziel: {3} kcal/Tag\n🍗 Protein: {4} g/Tag",
     "Empty": "Du hast noch kein Ziel. Legen wir eins fest?",
-    "NeedWeight": "Fülle zuerst dein Profil aus (Gewicht, Größe, Alter) — ohne das keine Berechnung."
+    "NeedWeight": "Fülle zuerst dein Profil aus (Gewicht, Größe, Alter) — ohne das keine Berechnung.",
+    "InvalidRequest": "Ungültige Anfrage.",
+    "Mismatch": "🎯 {0}: Ziel {1} kg bei aktuellen {2} kg — das ist {3}. Versuch es so:"
   },
   "AwaitingGoalWeight": {
     "AskWeight": "Welches Gewicht möchtest du erreichen (kg)?",
@@ -91,7 +96,8 @@
   },
   "AwaitingNeck": {
     "AskNeck": "Halsumfang eingeben (cm):",
-    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:"
+    "InvalidNumber": "Ungültiges Format. Gib eine Zahl ein:",
+    "InvalidNeck": "Der Hals muss kleiner als die Taille sein:"
   },
   "AwaitingHips": {
     "AskHips": "Hüftumfang eingeben (cm):",
@@ -115,7 +121,8 @@
     "DefaultServingDescription": "keine",
     "BtnSave": "💾 Mahlzeit speichern",
     "Saved": "✅ Mahlzeit gespeichert!",
-    "AlreadySaved": "Diese Mahlzeit ist bereits gespeichert."
+    "AlreadySaved": "Diese Mahlzeit ist bereits gespeichert.",
+    "NotFound": "Analyse nicht gefunden."
   },
   "Profile": {
     "AskWeight": "Bitte geben Sie Ihr Gewicht ein (kg):",
@@ -126,7 +133,8 @@
     "ProfileSaved": "Profil gespeichert!",
     "Saved": "Profil gespeichert!",
     "Card": "👤 Profil:\nGewicht: {0}\nGröße: {1}\nAlter: {2}\nGeschlecht: {3}\nTaille: {4}\nHals: {5}\nHüfte: {6}",
-    "BtnEdit": "✏️ Bearbeiten",
+    "BtnEdit": "✏️ Alles bearbeiten",
+    "BtnWeightEdit": "⚖️ Gewicht ändern",
     "NotSet": "—"
   },
   "Errors": {

@@ -39,13 +39,12 @@ public class MealStatsHandler : IRequestHandler<MealStatsMessage, Result<WorkFlo
             return Result.Failure<WorkFlowResponse>(Errors.UserNotFound);
         }
 
-        var offset = request.Offset > 0 ? 0 : request.Offset;
         var timezoneMinutes = user.TimezoneOffsetMinutes ?? 0;
         var today = DateTime.UtcNow.AddMinutes(timezoneMinutes).Date;
-        var (fromLocal, toLocal, periodLabel) = GetPeriod(request.Granularity, offset, today);
+        var (fromLocal, toLocal, periodLabel) = GetPeriod(request.Granularity, request.Offset, today);
         var rows = await _mealEntryRepository.GetAverages(request.ChatId, fromLocal.AddMinutes(-timezoneMinutes), toLocal.AddMinutes(-timezoneMinutes), cancellationToken);
         var templates = GetTemplates();
-        var buttonRows = BuildButtonRows(request.Granularity, offset, templates);
+        var buttonRows = BuildButtonRows(request.Granularity, request.Offset, templates);
 
         if (rows.Count == 0)
         {

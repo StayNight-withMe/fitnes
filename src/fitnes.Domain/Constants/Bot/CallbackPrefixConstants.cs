@@ -9,6 +9,7 @@ public static class CallbackPrefixConstants
     public const string Calories = "calc";
     public const string Profile = "prof";
     public const string ProfileEdit = "prof:edit";
+    public const string ProfileWeightEdit = "prof:weight";
     public const string Goals = "goal";
     public const string Back = "back";
     public const string Cancel = "cancel";

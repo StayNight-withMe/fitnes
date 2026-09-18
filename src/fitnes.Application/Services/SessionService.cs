@@ -30,11 +30,26 @@ public class SessionService : ISessionService
         session.LastUpdate = DateTime.UtcNow;
 
         var expiry = TimeSpan.FromMinutes(_options.ExpiryMinutes);
-        
+
         await _repo.SaveSession(session, expiry, cancellationToken);
+        await _repo.AddToIndex(chatId, DateTimeOffset.UtcNow, cancellationToken);
 
         _logger.LogDebug($"Сессия сохранена с значением: {initialState}");
 
         return session;
+    }
+
+    public async Task SaveSession(UserSession session, CancellationToken cancellationToken)
+    {
+        var expiry = TimeSpan.FromMinutes(_options.ExpiryMinutes);
+
+        await _repo.SaveSession(session, expiry, cancellationToken);
+        await _repo.AddToIndex(session.Id, DateTimeOffset.UtcNow, cancellationToken);
+    }
+
+    public async Task DeleteSession(long chatId, CancellationToken cancellationToken)
+    {
+        await _repo.DeleteSession(chatId, cancellationToken);
+        await _repo.RemoveFromIndex(chatId, cancellationToken);
     }
 }

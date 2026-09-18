@@ -21,7 +21,7 @@ public class UpdateGoalHandler : IRequestHandler<UpdateGoalMessage, Result<WorkF
 
     public Task<Result<WorkFlowResponse>> Handle(UpdateGoalMessage request, CancellationToken cancellationToken)
     {
-        if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), NumberStyles.Any, CultureInfo.InvariantCulture, out var targetWeight) || targetWeight <= ProfileValidationConstants.WeightMin || targetWeight > ProfileValidationConstants.WeightMax)
+        if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), NumberStyles.Any, CultureInfo.InvariantCulture, out var targetWeight))
         {
             var invalidText = _localizer.GetPhrase(WorkflowStep.AwaitingGoalWeight, LocalizationKeysConstants.Profile.InvalidNumber);
             var askText = _localizer.GetPhrase(WorkflowStep.AwaitingGoalWeight, LocalizationKeysConstants.Goals.AskWeight);

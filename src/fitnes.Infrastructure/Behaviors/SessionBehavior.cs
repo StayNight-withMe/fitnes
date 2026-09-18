@@ -1,7 +1,5 @@
 using fitnes.Domain.Entities;
 using fitnes.Domain.Abstraction.Repositories;
-using fitnes.Domain.Options;
-using Microsoft.Extensions.Options;
 using fitnes.Domain.Enums;
 using fitnes.Domain.Utils;
 using fitnes.Domain.Constants.Localization;
@@ -19,21 +17,21 @@ public class SessionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
 {
     private readonly RequestContext _context; 
     private readonly ISessionRepository _sessionRepository;
+    private readonly ISessionService _sessionService;
     private readonly ILocalizer _localizer;
     private readonly IBaseRepository<User, long> _userRepository;
-    private readonly SessionOptions _sessionOptions;
 
     public SessionBehavior(RequestContext context,
         ISessionRepository sessionRepository,
+        ISessionService sessionService,
         ILocalizer localizer,
-        IBaseRepository<User, long> userRepository,
-        IOptions<SessionOptions> sessionOptions)
+        IBaseRepository<User, long> userRepository)
     {
         _context = context;
         _sessionRepository = sessionRepository;
+        _sessionService = sessionService;
         _localizer = localizer;
         _userRepository = userRepository;
-        _sessionOptions = sessionOptions.Value;
     }
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
@@ -64,7 +62,7 @@ public class SessionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, 
                     LastUpdate = DateTime.UtcNow
                 };
 
-                await _sessionRepository.SaveSession(session, TimeSpan.FromMinutes(_sessionOptions.ExpiryMinutes), cancellationToken);
+                await _sessionService.SaveSession(session, cancellationToken);
             }
 
             _context.Session = session;

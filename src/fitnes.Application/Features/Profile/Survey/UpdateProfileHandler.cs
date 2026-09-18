@@ -44,7 +44,7 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
         {
             case WorkflowStep.AwaitingTimezone:
             {
-                if (!TryParseTimezone(request.Input, out var offsetMinutes))
+                if (!UpdateProfileTimezoneParser.TryParse(request.Input, out var offsetMinutes))
                 {
                     return Result<WorkFlowResponse>.Success(InvalidTimezoneResponse());
                 }
@@ -62,7 +62,7 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
 
             case WorkflowStep.AwaitingWeight:
             {
-                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var weight) || weight <= ProfileValidationConstants.WeightMin || weight > ProfileValidationConstants.WeightMax)
+                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var weight))
                 {
                     return Result<WorkFlowResponse>.Success(InvalidNumberResponse(WorkflowStep.AwaitingWeight, LocalizationKeysConstants.Profile.AskWeight));
                 }
@@ -80,7 +80,7 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
 
             case WorkflowStep.AwaitingHeight:
             {
-                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var height) || height <= ProfileValidationConstants.HeightMin || height > ProfileValidationConstants.HeightMax)
+                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var height))
                 {
                     return Result<WorkFlowResponse>.Success(InvalidNumberResponse(WorkflowStep.AwaitingHeight, LocalizationKeysConstants.Profile.AskHeight));
                 }
@@ -98,7 +98,7 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
 
             case WorkflowStep.AwaitingAge:
             {
-                if (!int.TryParse(request.Input, out var age) || age <= ProfileValidationConstants.AgeMin || age > ProfileValidationConstants.AgeMax)
+                if (!int.TryParse(request.Input, out var age))
                 {
                     return Result<WorkFlowResponse>.Success(InvalidNumberResponse(WorkflowStep.AwaitingAge, LocalizationKeysConstants.Profile.AskAge));
                 }
@@ -140,7 +140,7 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
 
             case WorkflowStep.AwaitingWaist:
             {
-                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var waist) || waist <= ProfileValidationConstants.MeasurementMin || waist > ProfileValidationConstants.MeasurementMax)
+                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var waist))
                 {
                     return Result<WorkFlowResponse>.Success(InvalidNumberResponse(WorkflowStep.AwaitingWaist, LocalizationKeysConstants.Profile.AskWaist));
                 }
@@ -158,9 +158,9 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
 
             case WorkflowStep.AwaitingNeck:
             {
-                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var neck) || neck <= ProfileValidationConstants.MeasurementMin || neck > ProfileValidationConstants.MeasurementMax || (user.WaistCm is double waist && neck >= waist))
+                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var neck) || (user.WaistCm is double savedWaist && neck >= savedWaist))
                 {
-                    return Result<WorkFlowResponse>.Success(InvalidNumberResponse(WorkflowStep.AwaitingNeck, LocalizationKeysConstants.Profile.AskNeck));
+                    return Result<WorkFlowResponse>.Success(InvalidNeckResponse());
                 }
 
                 user.NeckCm = neck;
@@ -189,7 +189,7 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
 
             case WorkflowStep.AwaitingHips:
             {
-                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var hips) || hips <= ProfileValidationConstants.MeasurementMin || hips > ProfileValidationConstants.MeasurementMax)
+                if (!double.TryParse(request.Input.Replace(ProfileValidationConstants.Comma, ProfileValidationConstants.Dot), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var hips))
                 {
                     return Result<WorkFlowResponse>.Success(InvalidNumberResponse(WorkflowStep.AwaitingHips, LocalizationKeysConstants.Profile.AskHips));
                 }
@@ -239,55 +239,16 @@ public class UpdateProfileHandler : IRequestHandler<UpdateProfileRequest, Result
         };
     }
 
-    private static bool TryParseTimezone(string input, out int offsetMinutes)
+    private WorkFlowResponse InvalidNeckResponse()
     {
-        offsetMinutes = 0;
+        var invalidText = _localizer.GetPhrase(WorkflowStep.AwaitingNeck, LocalizationKeysConstants.Profile.InvalidNeck);
+        var askText = _localizer.GetPhrase(WorkflowStep.AwaitingNeck, LocalizationKeysConstants.Profile.AskNeck);
 
-        if (string.IsNullOrWhiteSpace(input))
+        return new WorkFlowResponse
         {
-            return false;
-        }
-
-        var normalized = input.Trim();
-
-        if (normalized.StartsWith(ProfileValidationConstants.Plus))
-        {
-            normalized = normalized.Substring(1);
-        }
-
-        var parts = normalized.Split(ProfileValidationConstants.Colon);
-
-        if (parts.Length > 2)
-        {
-            return false;
-        }
-
-        if (!int.TryParse(parts[0], out var hours))
-        {
-            return false;
-        }
-
-        var minutes = 0;
-
-        if (parts.Length == 2)
-        {
-            if (!int.TryParse(parts[1], out minutes))
-            {
-                return false;
-            }
-        }
-
-        var validParts = ProfileValidationConstants.TimezoneValidMinuteParts;
-
-        if (!validParts.Contains(minutes))
-        {
-            return false;
-        }
-
-        var sign = input.Trim().StartsWith(ProfileValidationConstants.Minus) ? -1 : 1;
-        offsetMinutes = sign * (Math.Abs(hours) * ProfileValidationConstants.MinutesPerHour + minutes);
-
-        return offsetMinutes >= ProfileValidationConstants.TimezoneOffsetMinMinutes && offsetMinutes <= ProfileValidationConstants.TimezoneOffsetMaxMinutes;
+            Text = invalidText + "\n" + askText,
+            ButtonRows = new[] { CancelRow() }
+        };
     }
 
     private bool TryParseGender(string input, out Gender gender)

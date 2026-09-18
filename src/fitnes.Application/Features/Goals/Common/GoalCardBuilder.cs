@@ -14,7 +14,7 @@ public static class GoalCardBuilder
     public static WorkFlowResponse Build(UserGoal goal, User user, ILocalizer localizer)
     {
         var cardTemplate = localizer.GetPhrase(WorkflowStep.Goals, LocalizationKeysConstants.Goals.Card);
-        var typeName = localizer.GetPhrase(WorkflowStep.Goals, GoalTypeKey(goal.Type));
+        var typeName = localizer.GetPhrase(WorkflowStep.Goals, GoalCoherence.GoalTypeKey(goal.Type));
         var btnBack = localizer.GetPhrase(WorkflowStep.WorkMenu, LocalizationKeysConstants.WorkMenu.BtnBack);
 
         var bmr = BodyCompositionCalculator.MifflinBmr(user.Gender, user.Weight, user.Height, user.Age);
@@ -39,20 +39,5 @@ public static class GoalCardBuilder
                 new ButtonRow(new ButtonData(btnBack, CallbackPrefixConstants.Back))
             }
         };
-    }
-
-    private static string GoalTypeKey(GoalType type)
-    {
-        if (type is GoalType.GainWeight)
-        {
-            return LocalizationKeysConstants.Goals.BtnGain;
-        }
-
-        if (type is GoalType.Maintain)
-        {
-            return LocalizationKeysConstants.Goals.BtnMaintain;
-        }
-
-        return LocalizationKeysConstants.Goals.BtnLose;
     }
 }

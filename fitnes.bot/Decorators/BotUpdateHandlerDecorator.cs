@@ -1,10 +1,9 @@
 using fitnes.bot.Abstractions;
+using fitnes.Domain.Abstraction.Common;
 using fitnes.Domain.Abstraction.Repositories;
 using fitnes.Domain.Entities;
-using fitnes.Domain.Options;
 using fitnes.Infrastructure.Utils;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using DomainUser = fitnes.Domain.Entities.User;
@@ -16,26 +15,26 @@ public class BotUpdateHandlerDecorator : IBotUpdateHandler
 {
     private readonly IBotUpdateHandler _inner;
     private readonly ISessionRepository _sessionRepository;
+    private readonly ISessionService _sessionService;
     private readonly IBaseRepository<DomainUser, long> _userRepository;
     private readonly RequestContext _context;
-    private readonly SessionOptions _sessionOptions;
     private readonly ITelegramBotClient _botClient;
     private readonly ILogger<BotUpdateHandlerDecorator> _logger;
 
     public BotUpdateHandlerDecorator(
         IBotUpdateHandler inner,
         ISessionRepository sessionRepository,
+        ISessionService sessionService,
         IBaseRepository<DomainUser, long> userRepository,
         RequestContext context,
-        IOptions<SessionOptions> sessionOptions,
         ITelegramBotClient botClient,
         ILogger<BotUpdateHandlerDecorator> logger)
     {
         _inner = inner;
         _sessionRepository = sessionRepository;
+        _sessionService = sessionService;
         _userRepository = userRepository;
         _context = context;
-        _sessionOptions = sessionOptions.Value;
         _botClient = botClient;
         _logger = logger;
     }
@@ -74,7 +73,7 @@ public class BotUpdateHandlerDecorator : IBotUpdateHandler
                         State = Domain.Enums.WorkflowStep.Idle,
                         LastUpdate = DateTime.UtcNow
                     };
-                    await _sessionRepository.SaveSession(session, TimeSpan.FromMinutes(_sessionOptions.ExpiryMinutes), cancellationToken);
+                    await _sessionService.SaveSession(session, cancellationToken);
                 }
             }
 
