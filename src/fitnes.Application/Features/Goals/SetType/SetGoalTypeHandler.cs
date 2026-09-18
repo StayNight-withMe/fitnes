@@ -1,8 +1,11 @@
 using System.Globalization;
 using fitnes.Application.DTOs.WorkFlowResponse;
+using fitnes.Application.Features.Goals.Common;
 using fitnes.Domain.Abstraction.Common;
+using fitnes.Domain.Abstraction.Repositories;
 using fitnes.Domain.Constants.Bot;
 using fitnes.Domain.Constants.Localization;
+using fitnes.Domain.Entities;
 using fitnes.Domain.Enums;
 using fitnes.Domain.Models.Common;
 using MediatR;
@@ -11,14 +14,33 @@ namespace fitnes.Application.Features.Goals.SetType;
 
 public class SetGoalTypeHandler : IRequestHandler<SetGoalTypeMessage, Result<WorkFlowResponse>>
 {
+    private readonly IBaseRepository<User, long> _userRepository;
     private readonly ILocalizer _localizer;
 
-    public SetGoalTypeHandler(ILocalizer localizer)
+    public SetGoalTypeHandler(IBaseRepository<User, long> userRepository, ILocalizer localizer)
     {
+        _userRepository = userRepository;
         _localizer = localizer;
     }
 
-    public Task<Result<WorkFlowResponse>> Handle(SetGoalTypeMessage request, CancellationToken cancellationToken)
+    public async Task<Result<WorkFlowResponse>> Handle(SetGoalTypeMessage request, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetById(request.ChatId, cancellationToken);
+
+        if (user is null)
+        {
+            return Result.Failure<WorkFlowResponse>(Errors.UserNotFound);
+        }
+
+        if (GoalCoherence.IsMismatch(request.Type, user.Weight, request.TargetWeight))
+        {
+            return Result<WorkFlowResponse>.Success(GoalCoherence.BuildMismatchResponse(request.Type, user.Weight, request.TargetWeight, _localizer));
+        }
+
+        return Result<WorkFlowResponse>.Success(BuildActivityPicker(request));
+    }
+
+    private WorkFlowResponse BuildActivityPicker(SetGoalTypeMessage request)
     {
         var askText = _localizer.GetPhrase(WorkflowStep.Goals, LocalizationKeysConstants.Goals.AskActivity);
         var lines = new[]
@@ -33,7 +55,7 @@ public class SetGoalTypeHandler : IRequestHandler<SetGoalTypeMessage, Result<Wor
         var weightValue = request.TargetWeight.ToString(CultureInfo.InvariantCulture);
         var btnBack = _localizer.GetPhrase(WorkflowStep.WorkMenu, LocalizationKeysConstants.WorkMenu.BtnBack);
 
-        return Task.FromResult(Result<WorkFlowResponse>.Success(new WorkFlowResponse
+        return new WorkFlowResponse
         {
             Text = askText + "\n" + string.Join("\n", lines),
             ButtonRows = new[]
@@ -45,7 +67,7 @@ public class SetGoalTypeHandler : IRequestHandler<SetGoalTypeMessage, Result<Wor
                 new ButtonRow(ActivityButton(ActivityLevel.VeryActive, request.Type, weightValue)),
                 new ButtonRow(new ButtonData(btnBack, CallbackPrefixConstants.Back))
             }
-        }));
+        };
     }
 
     private string ActivityLine(ActivityLevel level, string nameKey, string descKey)
