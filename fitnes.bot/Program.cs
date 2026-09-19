@@ -17,5 +17,10 @@ builder.Services.AddLocalization();
 builder.Services.AddPersistence(builder.Configuration);
 
 var app = builder.Build();
-
-app.Run();
+try
+{
+    app.Run();
+}catch(Exception ex)
+{
+    Console.WriteLine("app exception");
+}
