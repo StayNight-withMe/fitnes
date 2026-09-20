@@ -57,13 +57,39 @@ public class BotWorker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Telegram polling started with timeout {TimeoutSeconds}s", BotConstants.TelegramPollingTimeoutSeconds);
-        _telegramBotClient.StartReceiving(
-            updateHandler: HandleUpdateAsync,
-            errorHandler: HandleErrorAsync,
-            cancellationToken: cancellationToken
-        );
+        _logger.LogInformation("Telegram polling starting with timeout {TimeoutSeconds}s", BotConstants.TelegramPollingTimeoutSeconds);
 
-        await Task.Delay(Timeout.Infinite, cancellationToken);
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            try
+            {
+                _logger.LogInformation("Polling loop starting...");
+                await _telegramBotClient.ReceiveAsync(
+                    updateHandler: HandleUpdateAsync,
+                    errorHandler: (bot, ex, ct) => HandleErrorAsync(bot, ex, HandleErrorSource.PollingError, ct),
+                    cancellationToken: cancellationToken
+                );
+
+                break;
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Polling loop died, restart in {DelaySeconds}s", BotConstants.PollingRestartDelaySeconds);
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(BotConstants.PollingRestartDelaySeconds), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+            }
+        }
+
+        _logger.LogInformation("Telegram polling stopped");
     }
 }

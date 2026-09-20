@@ -5,6 +5,7 @@ using fitnes.Domain.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
+using Serilog.Debugging;
 using Serilog.Events;
 using Telegram.Bot;
 
@@ -33,6 +34,10 @@ Log.Logger = new LoggerConfiguration()
         outputTemplate: LoggingConstants.FileOutputTemplate)
     .CreateLogger();
 
+SelfLog.Enable(msg => Console.Error.WriteLine($"[Serilog SelfLog] {msg}"));
+
+Log.Information("Starting application...");
+
 try
 {
     HostApplicationBuilder builder = new HostApplicationBuilder(args);
@@ -55,6 +60,7 @@ try
 
     var app = builder.Build();
 
+    Log.Information("Application built, starting host...");
     app.Run();
     Log.Information("Host stopped");
 
