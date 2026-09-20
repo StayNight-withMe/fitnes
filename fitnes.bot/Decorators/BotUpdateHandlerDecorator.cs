@@ -43,7 +43,14 @@ public class BotUpdateHandlerDecorator : IBotUpdateHandler
     {
         if (update.CallbackQuery is not null)
         {
-            await _botClient.AnswerCallbackQuery(update.CallbackQuery.Id, cancellationToken: cancellationToken);
+            try
+            {
+                await _botClient.AnswerCallbackQuery(update.CallbackQuery.Id, cancellationToken: cancellationToken);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogWarning($"HanndleUpdate error:{0}", ex);
+            }
         }
 
         long? chatId = null;
