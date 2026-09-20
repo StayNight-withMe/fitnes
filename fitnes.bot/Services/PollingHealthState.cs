@@ -6,6 +6,7 @@ public class PollingHealthState
     private DateTimeOffset _lastUpdateHandledUtc = DateTimeOffset.UtcNow;
     private DateTimeOffset _loopStartedUtc = DateTimeOffset.UtcNow;
     private int _loopRestarts;
+    private int? _lastUpdateId;
 
     public DateTimeOffset LastUpdateHandledUtc
     {
@@ -25,6 +26,20 @@ public class PollingHealthState
     public void MarkUpdateHandled()
     {
         lock (_lock) { _lastUpdateHandledUtc = DateTimeOffset.UtcNow; }
+    }
+
+    public void MarkUpdateHandled(int updateId)
+    {
+        lock (_lock)
+        {
+            _lastUpdateHandledUtc = DateTimeOffset.UtcNow;
+            _lastUpdateId = updateId;
+        }
+    }
+
+    public int? GetResumeOffset()
+    {
+        lock (_lock) { return _lastUpdateId.HasValue ? _lastUpdateId.Value + 1 : null; }
     }
 
     public void MarkLoopStarted()
