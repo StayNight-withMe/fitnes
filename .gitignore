@@ -2,6 +2,8 @@
 **/appsettings.Development.json
 # Local secrets - never commit live tokens/connection strings
 fitnes.bot/appsettings.json
+# Runtime logs - never commit
+logs/
 
 # Ignore redis binary dump (dump.rdb) files
 
