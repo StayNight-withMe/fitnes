@@ -50,6 +50,12 @@ public class GeminiCalorieUtils : ICalorieService
             throw new InvalidOperationException("API Key для Gemini не найден или пуст.");
         }
 
+        _logger.LogInformation("Gemini request started, image size {ImageBytes} bytes", imageBytes.Length);
+
+        using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeoutCts.CancelAfter(TimeSpan.FromSeconds(GeminiConstants.RequestTimeoutSeconds));
+        CancellationToken ct = timeoutCts.Token;
+
         string requestUrl = $"{GeminiConstants.BaseUrl}:generateContent?key={_apiKey}";
         string base64Image = Convert.ToBase64String(imageBytes);
         string info = additionalInformation ?? string.Empty;
@@ -109,8 +115,17 @@ public class GeminiCalorieUtils : ICalorieService
             }
         };
 
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUrl, requestBody, cancellationToken);
-        string jsonResponse = await response.Content.ReadAsStringAsync(cancellationToken);
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync(requestUrl, requestBody, ct);
+        string jsonResponse = await response.Content.ReadAsStringAsync(ct);
+
+        if (response.IsSuccessStatusCode is false)
+        {
+            _logger.LogError(
+                "Ошибка при запросе к Gemini API. StatusCode: {StatusCode}, Response: {ResponseContent}",
+                response.StatusCode,
+                jsonResponse);
+            return null;
+        }
 
         var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
@@ -125,14 +140,7 @@ public class GeminiCalorieUtils : ICalorieService
         }
 
         var result = JsonSerializer.Deserialize<FoodAnalysisResult>(innerJson, jsonOptions);
-        if (response.IsSuccessStatusCode is false)
-        {
-            _logger.LogError(
-                "Ошибка при запросе к Gemini API. StatusCode: {StatusCode}, Response: {ResponseContent}",
-                response.StatusCode,
-                jsonResponse);
-            return null;
-        }
+        _logger.LogInformation("Gemini request finished successfully");
 
         return result;
     }
