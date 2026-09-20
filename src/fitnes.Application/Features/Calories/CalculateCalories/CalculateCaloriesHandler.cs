@@ -34,7 +34,7 @@ public class CalculateCaloriesHandler : IRequestHandler<CalculateCaloriesMessage
 
     public async Task<Result<WorkFlowResponse>> Handle(CalculateCaloriesMessage request, CancellationToken cancellationToken)
     {
-        var result = await _calorieService.GetCaloriesFromImageAsync(request.ImageBytes, request.Weight, request.AdditionalInfo, _requestContext.Session.Language, cancellationToken);
+        var result = await _calorieService.GetCaloriesFromImageAsync(request.ImageBytes, request.AdditionalInfo, _requestContext.Session.Language, cancellationToken);
 
         if (result is null)
         {
