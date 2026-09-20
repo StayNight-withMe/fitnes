@@ -47,9 +47,9 @@ public class BotUpdateHandlerDecorator : IBotUpdateHandler
             {
                 await _botClient.AnswerCallbackQuery(update.CallbackQuery.Id, cancellationToken: cancellationToken);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.LogWarning($"HanndleUpdate error:{0}", ex);
+                _logger.LogWarning(ex, "HandleUpdate AnswerCallbackQuery failed for update {UpdateId}", update.Id);
             }
         }
 

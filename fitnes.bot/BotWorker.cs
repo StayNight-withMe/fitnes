@@ -32,13 +32,26 @@ public class BotWorker : BackgroundService
 
     async Task HandleErrorAsync(ITelegramBotClient bot, Exception ex, HandleErrorSource source, CancellationToken cancellationToken)
     {
-        if (ex is RequestException)
+        try
         {
-            _logger.LogWarning(ex, "Telegram polling request warning ({Source})", source);
+            if (ex is OperationCanceledException && cancellationToken.IsCancellationRequested)
+            {
+                _logger.LogDebug("Telegram polling cancelled ({Source})", source);
+                return;
+            }
+
+            if (ex is RequestException)
+            {
+                _logger.LogWarning(ex, "Telegram polling request warning ({Source})", source);
+            }
+            else
+            {
+                _logger.LogError(ex, "Telegram polling error ({Source})", source);
+            }
         }
-        else
+        catch (Exception logEx)
         {
-            _logger.LogError(ex, "Telegram polling error ({Source})", source);
+            Console.Error.WriteLine($"[HandleErrorAsync fallback] source={source} ex={ex.GetType().Name}: {ex.Message} | logEx={logEx.GetType().Name}: {logEx.Message}");
         }
     }
 
