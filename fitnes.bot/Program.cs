@@ -51,7 +51,9 @@ try
         return client;
     });
     builder.Services.AddOptions(builder.Configuration);
+    builder.Services.AddSingleton<fitnes.bot.Services.PollingHealthState>();
     builder.Services.AddHostedService<BotWorker>();
+    builder.Services.AddHostedService<fitnes.bot.Services.PollingHealthMonitor>();
     builder.Services.AddServices();
     builder.Services.AddBotHandlers();
     builder.Services.AddPipeline();

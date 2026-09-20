@@ -1,4 +1,5 @@
 using fitnes.bot.Abstractions;
+using fitnes.bot.Services;
 using fitnes.Domain.Constants.Bot;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,17 +15,20 @@ public class BotWorker : BackgroundService
 {
     private readonly ITelegramBotClient _telegramBotClient;
     private readonly IServiceScopeFactory _scopeFactory;
+    private readonly PollingHealthState _health;
     private readonly ILogger<BotWorker> _logger;
 
-    public BotWorker(ITelegramBotClient telegramBotClient, IServiceScopeFactory scopeFactory, ILogger<BotWorker> logger)
+    public BotWorker(ITelegramBotClient telegramBotClient, IServiceScopeFactory scopeFactory, PollingHealthState health, ILogger<BotWorker> logger)
     {
         _telegramBotClient = telegramBotClient;
         _scopeFactory = scopeFactory;
+        _health = health;
         _logger = logger;
     }
 
     async Task HandleUpdateAsync(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)
     {
+        _health.MarkUpdateHandled();
         using var scope = _scopeFactory.CreateScope();
         var updateHandler = scope.ServiceProvider.GetRequiredService<IBotUpdateHandler>();
         await updateHandler.HandleUpdateAsync(update, cancellationToken);
@@ -63,6 +67,7 @@ public class BotWorker : BackgroundService
         {
             try
             {
+                _health.MarkLoopStarted();
                 _logger.LogInformation("Polling loop starting...");
                 await _telegramBotClient.ReceiveAsync(
                     updateHandler: HandleUpdateAsync,
@@ -78,6 +83,7 @@ public class BotWorker : BackgroundService
             }
             catch (Exception ex)
             {
+                _health.MarkLoopRestart();
                 _logger.LogError(ex, "Polling loop died, restart in {DelaySeconds}s", BotConstants.PollingRestartDelaySeconds);
                 try
                 {
