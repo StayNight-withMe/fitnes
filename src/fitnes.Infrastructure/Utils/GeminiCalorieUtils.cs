@@ -43,7 +43,7 @@ public class GeminiCalorieUtils : ICalorieService
         _logger = logger;
     }
 
-    public async Task<FoodAnalysisResult?> GetCaloriesFromImageAsync(byte[] imageBytes, double weightInGrams, string? additionalInformation, Language language, CancellationToken cancellationToken)
+    public async Task<FoodAnalysisResult?> GetCaloriesFromImageAsync(byte[] imageBytes, string? additionalInformation, Language language, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(_apiKey))
         {
@@ -97,7 +97,7 @@ public class GeminiCalorieUtils : ICalorieService
                 {
                     parts = new object[]
                     {
-                        new { text = string.Format(GeminiConstants.PromptTemplate, weightInGrams, info, language.ToString()) },
+                        new { text = string.Format(GeminiConstants.PromptTemplate, info, language.ToString()) },
                         new { inline_data = new { mime_type = GeminiConstants.MimeType, data = base64Image } }
                     }
                 }

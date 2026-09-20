@@ -42,12 +42,11 @@ public class CalorieCalculationHandler : IBotHandler
         if (update.Message is { Chat.Id: long chatId, Photo: { } photos })
         {
             string caption = update.Message.Caption ?? string.Empty;
-            double weight = ParseWeight(caption);
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 await _telegramBotClient.GetInfoAndDownloadFile(photos.Last().FileId, memoryStream, cancellationToken);
                 byte[] imageBytes = memoryStream.ToArray();
-                var result = await _mediator.Send(new CalculateCaloriesMessage(imageBytes, weight, caption), cancellationToken);
+                var result = await _mediator.Send(new CalculateCaloriesMessage(imageBytes, caption), cancellationToken);
                 await _telegramBotClient.SendAndDelete(
                     chatId: chatId,
                     text: result.GetTextOrErrors(),
@@ -59,19 +58,5 @@ public class CalorieCalculationHandler : IBotHandler
                 );
             }
         }
-    }
-
-    private double ParseWeight(string text)
-    {
-        string[] parts = text.Split(' ');
-        foreach (string part in parts)
-        {
-            if (double.TryParse(part, out double weight))
-            {
-                return weight;
-            }
-        }
-
-        return 0.0;
     }
 }

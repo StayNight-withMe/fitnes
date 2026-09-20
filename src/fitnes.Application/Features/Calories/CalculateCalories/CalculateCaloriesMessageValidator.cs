@@ -13,9 +13,5 @@ public class CalculateCaloriesMessageValidator : AbstractValidator<CalculateCalo
         RuleFor(x => x.ImageBytes)
             .NotEmpty()
             .WithMessage(ValidatorPhrases.Get(localizer, context, WorkflowStep.AnalysisResult, LocalizationKeysConstants.AnalysisResult.NoAnalysis));
-
-        RuleFor(x => x.Weight)
-            .GreaterThanOrEqualTo(ValidatorConstants.MinImageWeight)
-            .WithMessage(ValidatorPhrases.Get(localizer, context, WorkflowStep.AwaitingWeight, LocalizationKeysConstants.Profile.InvalidNumber));
     }
 }
