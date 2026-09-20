@@ -42,11 +42,14 @@ public class CalorieCalculationHandler : IBotHandler
         if (update.Message is { Chat.Id: long chatId, Photo: { } photos })
         {
             string caption = update.Message.Caption ?? string.Empty;
+            _logger.LogInformation("Photo received from chat {ChatId}, downloading file {FileId}", chatId, photos.Last().FileId);
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 await _telegramBotClient.GetInfoAndDownloadFile(photos.Last().FileId, memoryStream, cancellationToken);
                 byte[] imageBytes = memoryStream.ToArray();
+                _logger.LogInformation("Photo downloaded for chat {ChatId}, size {ImageBytes} bytes, sending to analysis", chatId, imageBytes.Length);
                 var result = await _mediator.Send(new CalculateCaloriesMessage(imageBytes, caption), cancellationToken);
+                _logger.LogInformation("Analysis finished for chat {ChatId}, success={Success}", chatId, result.IsSuccess);
                 await _telegramBotClient.SendAndDelete(
                     chatId: chatId,
                     text: result.GetTextOrErrors(),

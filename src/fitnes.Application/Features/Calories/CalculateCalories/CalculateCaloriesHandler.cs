@@ -34,12 +34,16 @@ public class CalculateCaloriesHandler : IRequestHandler<CalculateCaloriesMessage
 
     public async Task<Result<WorkFlowResponse>> Handle(CalculateCaloriesMessage request, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("Calorie analysis started, image size {ImageBytes} bytes", request.ImageBytes.Length);
         var result = await _calorieService.GetCaloriesFromImageAsync(request.ImageBytes, request.AdditionalInfo, _requestContext.Session.Language, cancellationToken);
 
         if (result is null)
         {
+            _logger.LogWarning("Calorie analysis returned null (Gemini empty/error response)");
             return Result.Failure<WorkFlowResponse>(Errors.InternalError);
         }
+
+        _logger.LogInformation("Calorie analysis finished, dish={Dish}", result.Dish_Name);
 
         var created = await TrySaveHistory(result, cancellationToken);
         var templates = GetTemplates();
