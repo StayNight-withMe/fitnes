@@ -28,10 +28,21 @@ public class BotWorker : BackgroundService
 
     async Task HandleUpdateAsync(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)
     {
-        _health.MarkUpdateHandled();
+        _health.MarkUpdateHandled(update.Id);
         using var scope = _scopeFactory.CreateScope();
         var updateHandler = scope.ServiceProvider.GetRequiredService<IBotUpdateHandler>();
-        await updateHandler.HandleUpdateAsync(update, cancellationToken);
+        try
+        {
+            await updateHandler.HandleUpdateAsync(update, cancellationToken);
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            throw;
+        }
+        catch (OperationCanceledException ex)
+        {
+            _logger.LogWarning(ex, "Update {UpdateId} handling timed out, polling continues", update.Id);
+        }
     }
 
     async Task HandleErrorAsync(ITelegramBotClient bot, Exception ex, HandleErrorSource source, CancellationToken cancellationToken)
@@ -63,8 +74,25 @@ public class BotWorker : BackgroundService
     {
         _logger.LogInformation("Telegram polling starting with timeout {TimeoutSeconds}s", BotConstants.TelegramPollingTimeoutSeconds);
 
+        try
+        {
+            using var probeCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            probeCts.CancelAfter(TimeSpan.FromSeconds(20));
+            var me = await _telegramBotClient.GetMe(probeCts.Token);
+            _logger.LogInformation("Telegram GetMe probe ok: @{Username} (id {Id})", me.Username, me.Id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Telegram GetMe probe failed");
+        }
+
         while (!cancellationToken.IsCancellationRequested)
         {
+            var receiverOptions = new Telegram.Bot.Polling.ReceiverOptions
+            {
+                Offset = _health.GetResumeOffset(),
+            };
+
             try
             {
                 _health.MarkLoopStarted();
@@ -72,10 +100,12 @@ public class BotWorker : BackgroundService
                 await _telegramBotClient.ReceiveAsync(
                     updateHandler: HandleUpdateAsync,
                     errorHandler: (bot, ex, ct) => HandleErrorAsync(bot, ex, HandleErrorSource.PollingError, ct),
+                    receiverOptions: receiverOptions,
                     cancellationToken: cancellationToken
                 );
 
-                break;
+                _health.MarkLoopRestart();
+                _logger.LogWarning("Polling loop returned without cancellation, restarting in {DelaySeconds}s", BotConstants.PollingRestartDelaySeconds);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -85,14 +115,15 @@ public class BotWorker : BackgroundService
             {
                 _health.MarkLoopRestart();
                 _logger.LogError(ex, "Polling loop died, restart in {DelaySeconds}s", BotConstants.PollingRestartDelaySeconds);
-                try
-                {
-                    await Task.Delay(TimeSpan.FromSeconds(BotConstants.PollingRestartDelaySeconds), cancellationToken);
-                }
-                catch (OperationCanceledException)
-                {
-                    break;
-                }
+            }
+
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(BotConstants.PollingRestartDelaySeconds), cancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
             }
         }
 
