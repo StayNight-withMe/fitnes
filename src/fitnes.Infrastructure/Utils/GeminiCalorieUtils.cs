@@ -8,6 +8,9 @@ using fitnes.Infrastructure.Constants;
 using fitnes.Infrastructure.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace fitnes.Infrastructure.Utils;
 
@@ -36,11 +39,50 @@ public class GeminiCalorieUtils : ICalorieService
     private const string FieldDescription = "description";
     private const string FieldAnalysisSummary = "analysis_summary";
 
+    private const int MaxImageDimension = 1280;
+    private const int JpegQuality = 85;
+
     public GeminiCalorieUtils(HttpClient httpClient, IOptions<ApiKeyOptions> apiKey, ILogger<GeminiCalorieUtils> logger)
     {
         _httpClient = httpClient;
         _apiKey = apiKey.Value.ApiKey;
         _logger = logger;
+    }
+
+    private byte[] PrepareImage(byte[] imageBytes)
+    {
+        try
+        {
+            using var image = Image.Load(imageBytes);
+
+            if (image.Width <= MaxImageDimension && image.Height <= MaxImageDimension)
+            {
+                return imageBytes;
+            }
+
+            int originalWidth = image.Width;
+            int originalHeight = image.Height;
+            double scale = Math.Min((double)MaxImageDimension / originalWidth, (double)MaxImageDimension / originalHeight);
+            int newWidth = (int)(originalWidth * scale);
+            int newHeight = (int)(originalHeight * scale);
+
+            image.Mutate(x => x.Resize(newWidth, newHeight));
+
+            using var output = new MemoryStream();
+            image.Save(output, new JpegEncoder { Quality = JpegQuality });
+            byte[] resized = output.ToArray();
+
+            _logger.LogInformation(
+                "Image resized {OriginalWidth}x{OriginalHeight} -> {NewWidth}x{NewHeight}, {OriginalBytes} -> {ResizedBytes} bytes",
+                originalWidth, originalHeight, newWidth, newHeight, imageBytes.Length, resized.Length);
+
+            return resized;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "Image resize failed, sending original ({ImageBytes} bytes)", imageBytes.Length);
+            return imageBytes;
+        }
     }
 
     public async Task<FoodAnalysisResult?> GetCaloriesFromImageAsync(byte[] imageBytes, string? additionalInformation, Language language, CancellationToken cancellationToken)
@@ -49,6 +91,8 @@ public class GeminiCalorieUtils : ICalorieService
         {
             throw new InvalidOperationException("API Key для Gemini не найден или пуст.");
         }
+
+        imageBytes = PrepareImage(imageBytes);
 
         _logger.LogInformation("Gemini request started, image size {ImageBytes} bytes", imageBytes.Length);
 
