@@ -11,9 +11,13 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<ICalorieService, GeminiCalorieUtils>();
+        services.AddHttpClient<ICalorieService, GeminiCalorieUtils>()
+            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+            {
+                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                ConnectTimeout = TimeSpan.FromSeconds(30),
+            });
         services.AddScoped<ISessionService, SessionService>();
-        services.AddScoped<HttpClient>();
 
         return services;
     }
